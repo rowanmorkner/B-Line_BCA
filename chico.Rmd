@@ -1,15 +1,12 @@
 ---
 title: "Chico Ridership forecast"
-author: "Rowan Morkner
+author: "ROWAN MORKNER"
+output: pdf_document
 date: "`r Sys.Date()`"
-output:
-  pdf_document:
-    fig_caption: yes
-    keep_tex: no
 ---
 
 
-```{r}
+```{r, message=FALSE}
 library(readxl)
 library(dplyr)
 library(tidyr)
@@ -28,14 +25,14 @@ load_xlsx_sheets <- function(file_path) {
           paste(sheet_names, collapse = ", "))
 }
 
-load_xlsx_sheets("../../data/transit/transit_data.xlsx")
+load_xlsx_sheets("transit_data.xlsx")
 
 rm(`Mozart Reports`, `Read Me`, `UPT Estimates`, `VRM Estimates`, `Calendar Year UPT`, `Calendar Year VRM`, `Master`)
 
 ```
 
 
-```{r}
+```{r, message=FALSE}
 library(dplyr)
 library(stringr)
 
@@ -59,7 +56,7 @@ rm(VRM,VOMS,VRH)
 
 
 
-```{r}
+```{r, message=FALSE}
 # create pivot longer function for transit data frames make the "value" column the name of the data frame 
 
 pivot_longer_transit <- function(df, value) {
@@ -81,7 +78,7 @@ rm(UPT)
 ```
 
 # filter for important variables
-```{r}
+```{r, message=FALSE}
 
 UPT <- UPT_long %>%
   select(`UZA Name`, Month_Year, UPT, Mode, `3 Mode`)
@@ -350,6 +347,8 @@ bca_wide <- df %>%
          baseline_r14_annual,
          induced_r3_weekday,
          induced_r14_weekday)
+
+write.csv(bca_wide, "projected_UPT.csv")
 ```
 
 
